@@ -5,11 +5,6 @@ services:
     image: node
     command: "npm run start"
     working_dir: "/app"
-    environment:
-      API_TOKEN: ${API_TOKEN}
-      API_BASE_URL: ${API_BASE_URL}
-      ACCESS_TOKENS: ${ACCESS_TOKENS}
-      PORT: ${INTERNAL_PORT}
     volumes:
       - .:/app
     ports:

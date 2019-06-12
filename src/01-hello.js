@@ -6,7 +6,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const port = parseInt(process.env.PORT || 8080, 10);
+const port = parseInt(process.env.INTERNAL_PORT || 8080, 10);
 
 const app = express();
 
