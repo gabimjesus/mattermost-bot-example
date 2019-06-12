@@ -27,7 +27,7 @@ app.post('/hello', async (req, res, next) => {
   try {
     console.log(req.body);
 
-    const { postId, numberOfWinners, wantedReactions, isPublic } = parseArguments(req.body.text);
+    const { postId, what, numberOfWinners, wantedReactions, isPublic } = parseArguments(req.body.text);
 
     let postReactions = await listPostReactions(postId);
 
@@ -55,6 +55,8 @@ app.post('/hello', async (req, res, next) => {
     const message = [
       `\`${req.body.command} ${req.body.text}\``,
       `sorteado por: @${req.body.user_name}`,
+      `#### Sorteio: ${what}`,
+      '## Vencedores',
       ...winnerDisplayNames,
       winnerPictures.join(''),
     ].join('\n');
@@ -72,14 +74,14 @@ app.post('/hello', async (req, res, next) => {
 
 app.use('/hello', sendExceptionAsChatMessage);
 
-const env = require('env');
+const env = require('./environment');
 app.listen(env.port);
 console.log('Listening on port', env.port);
 
 
 function parseArguments(message) {
   const arguments = message.split(' ').filter(s => s);
-  const [permalink, numberOfWinnersString, reactionsString, isPublicString] = arguments;
+  const [permalink, what, numberOfWinnersString, reactionsString, isPublicString] = arguments;
 
   // Exemplo de permalink: https://im.tokenlab.com.br/tokenlab/pl/00001111222233334444555566
   const postId = permalink.split('/pl/')[1];
@@ -92,16 +94,19 @@ function parseArguments(message) {
 
   let wantedReactions = [];
 
-  if (reactionsString) {
+  if (reactionsString && reactionsString.toLowerCase() !== 'any') {
     // Exemplos de valores de reactionsString: undefined, ":thumbsup:", ":+1:,:thumbsup:", "thumbsup"
-    wantedReactions = reactionsString.replace(/:/g, '').split(',');
+    wantedReactions = reactionsString
+      .replace(/:/g, '')
+      .split(',')
+      .filter(s => s);
   }
 
   // isPublic => todo mundo pode ver
   const trueValues = ['public', 'yes', 'true', '1'];
   const isPublic = Boolean(isPublicString) && trueValues.includes(isPublicString.toLowerCase());
 
-  return { postId, numberOfWinners, wantedReactions, isPublic };
+  return { postId, what, numberOfWinners, wantedReactions, isPublic };
 }
 
 function shuffle(array) {
