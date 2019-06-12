@@ -17,8 +17,6 @@ const {
   getUserProfilePictureUrl,
 } = require('./mattermost');
 
-const port = parseInt(process.env.PORT || 8080, 10);
-
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -74,8 +72,9 @@ app.post('/hello', async (req, res, next) => {
 
 app.use('/hello', sendExceptionAsChatMessage);
 
-app.listen(port);
-console.log('Listening on port', port);
+const env = require('env');
+app.listen(env.port);
+console.log('Listening on port', env.port);
 
 
 function parseArguments(message) {
