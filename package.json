@@ -1,0 +1,26 @@
+{
+  "name": "mattermost-bot",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "license": "MIT",
+  "scripts": {
+    "install-prod": "$_ install --production",
+    "start": "nodemon",
+    "copy-to-contabo": "bash copy-to-contabo.sh",
+    "docker-up": "docker-compose up -d",
+    "docker-down": "docker-compose down",
+    "docker-restart": "$_ run docker-down && $_ run docker-up",
+    "docker-logs": "docker-compose logs --follow --tail=100",
+    "docker-ps-short": "docker ps --format \"table {{.Names}}\\t{{.Status}}\\t{{.RunningFor}}\\t{{.Ports}}\""
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/express": "^4.17.0"
+  }
+}

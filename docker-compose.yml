@@ -1,0 +1,16 @@
+version: "3.3"
+
+services:
+  bot:
+    image: node
+    command: "npm run start"
+    working_dir: "/app"
+    environment:
+      API_TOKEN: ${API_TOKEN}
+      API_BASE_URL: ${API_BASE_URL}
+      ACCESS_TOKENS: ${ACCESS_TOKENS}
+      PORT: ${INTERNAL_PORT}
+    volumes:
+      - .:/app
+    ports:
+      - "${EXTERNAL_PORT}:${INTERNAL_PORT}"
