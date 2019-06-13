@@ -27,7 +27,12 @@ app.post('/hello', async (req, res, next) => {
   try {
     console.log(req.body);
 
-    const { postId, what, numberOfWinners, wantedReactions, isPublic } = parseArguments(req.body.text);
+    const { isHelp, postId, what, numberOfWinners, wantedReactions, isPublic } = parseArguments(req.body.text);
+
+    if (isHelp) {
+      res.send(helpMessageJson(req.body.command));
+      return;
+    }
 
     let postReactions = await listPostReactions(postId);
 
@@ -46,20 +51,27 @@ app.post('/hello', async (req, res, next) => {
     const winnerIds = shuffle(userIds).slice(0, numberOfWinners);
     const winnerUsers = await findManyUsersById(winnerIds);
 
-    const winnerDisplayNames = winnerUsers.map((user, i) => `${i + 1}. @${user.username}`);
-
     const winnerPictures = winnerUsers
       // .filter(user => user.last_picture_update)  // Só mostra usuários que definiram uma foto
       .map(user => `![winner](${getUserProfilePictureUrl(user.id)} "winner")`);
 
-    const message = [
+    const lines = [
       `\`${req.body.command} ${req.body.text}\``,
       `sorteado por: @${req.body.user_name}`,
       `#### Sorteio: ${what}`,
-      '## Vencedores',
-      ...winnerDisplayNames,
-      winnerPictures.join(''),
-    ].join('\n');
+    ];
+
+    if (winnerUsers.length === 1) {
+      lines.push(`## Vencedor: @${winnerUsers[0].username}`)
+    } else {
+      const winnerDisplayNames = winnerUsers.map((user, i) => `${i + 1}. @${user.username}`);
+      lines.push('## Vencedores');
+      lines.push(...winnerDisplayNames);
+    }
+
+    lines.push(winnerPictures.join(''));
+
+    const message = lines.join('\n');
 
     res.status(200).json({
       username: 'Bot do Sorteio (2)',
@@ -83,7 +95,11 @@ function parseArguments(message) {
   const arguments = message.split(' ').filter(s => s);
   const [permalink, what, numberOfWinnersString, reactionsString, isPublicString] = arguments;
 
-  // Exemplo de permalink: https://im.tokenlab.com.br/tokenlab/pl/00001111222233334444555566
+  if (permalink.toLowerCase() === 'help' || !permalink) {
+    return { isHelp: true };
+  }
+
+  // Exemplo de permalink: https://im.dominio.com.br/time/pl/00001111222233334444555566
   const postId = permalink.split('/pl/')[1];
 
   if (!postId) {
@@ -106,7 +122,7 @@ function parseArguments(message) {
   const trueValues = ['public', 'yes', 'true', '1'];
   const isPublic = Boolean(isPublicString) && trueValues.includes(isPublicString.toLowerCase());
 
-  return { postId, what, numberOfWinners, wantedReactions, isPublic };
+  return { isHelp: false, postId, what, numberOfWinners, wantedReactions, isPublic };
 }
 
 function shuffle(array) {
@@ -116,4 +132,24 @@ function shuffle(array) {
   }
 
   return array;
+}
+
+function helpMessageJson(command) {
+  return {
+    username: 'Bot do Sorteio (2)',
+    icon_url: 'https://files.catbox.moe/dpfetu.jpeg',
+    text: [
+      `\`${command} permalink item-sorteado número-vencedores reações é-publico?\``,
+      'permalink: permalink do post com as reações de quem vai participar',
+      'item-sorteado: qualquer palavra sem espaços',
+      'número-vencedores: número de vencedores',
+      'reações: pode ser any para pegar todas, ou uma lista separado com vírgulas. Por exemplo: `:thumbsup:,:+1:,:heart:`',
+      'é-publico?: diz se o sorteio aparece só para você ou todo mundo no chat. Os valores public, yes, true e 1 fazem aparecer no chat',
+      'Exemplos:',
+      `\`${command} ${env.helpBaseUrl}/pl/00001111222233334444555566 Bolo 1 :heart:\``,
+      `\`${command} ${env.helpBaseUrl}/pl/00001111222233334444555566 Marmita 3 :heart:,:thumbsup: public\``,
+      `\`${command} ${env.helpBaseUrl}/pl/00001111222233334444555566 Pamonha 10 any public\``,
+    ].join('\n'),
+    response_type: 'ephemeral',
+  };
 }
