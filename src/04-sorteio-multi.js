@@ -19,6 +19,19 @@ const {
 
 const app = express();
 
+const frasesSilvio = [
+  "Quem quer dinheiro?",
+  "É namoro ou amizade?",
+  "É solteiro, casado ou tico-tico no fubá?",
+  "Ritmo, é ritmo de festa",
+  "Quem vai ganhar?!",
+  "Ai ai ai ui ui !",
+  "Três aviõezinhos de cinquenta reais para o auditório",
+  "Mas quem é que eu vou chamar",
+  "Ha-Ha-Hi-Hi, Vem pra cá! Vem pra cá!",
+  "Vale dez reais ?",
+];
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/hello', verifyAccessToken);
@@ -57,6 +70,7 @@ app.post('/hello', async (req, res, next) => {
 
     const lines = [
       `\`${req.body.command} ${req.body.text}\``,
+      '# ' + frasesSilvio[Math.floor(Math.random() * frasesSilvio.length)],
       `sorteado por: @${req.body.user_name}`,
       `#### Sorteio: ${what}`,
     ];
