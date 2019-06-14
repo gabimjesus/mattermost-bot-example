@@ -109,7 +109,7 @@ function parseArguments(message) {
   const arguments = message.split(' ').filter(s => s);
   const [permalink, what, numberOfWinnersString, reactionsString, isPublicString] = arguments;
 
-  if (permalink.toLowerCase() === 'help' || !permalink) {
+  if (!permalink || permalink.toLowerCase() === 'help') {
     return { isHelp: true };
   }
 
