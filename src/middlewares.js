@@ -3,13 +3,13 @@ module.exports = {
   sendExceptionAsChatMessage,
 };
 
-const env = require('./environment');
+const { allowedAccessTokens } = require('./environment');
 
 /** Só deixa passar requisições com o token de acesso válido do slash-command */
 function verifyAccessToken(req, res, next) {
   const token = req.body.token;
 
-  if (!token || !env.allowedAccessTokens.includes(token)) {
+  if (!token || !allowedAccessTokens.includes(token)) {
     res.status(401).send('Unauthorized');
   } else {
     next();

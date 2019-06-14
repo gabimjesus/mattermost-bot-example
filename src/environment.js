@@ -5,7 +5,7 @@ const requiredEnvs = [
   'API_TOKEN',
   'API_BASE_URL',
   'HELP_BASE_URL',
-  'INTERNAL_PORT',
+  'PORT',
 ];
 
 for (const envName of requiredEnvs) {
@@ -15,7 +15,7 @@ for (const envName of requiredEnvs) {
 }
 
 module.exports = {
-  port: parseInt(process.env.INTERNAL_PORT || '8080', 10),
+  port: parseInt(process.env.PORT || '8080', 10),
   apiToken: process.env.API_TOKEN,
   apiBaseUrl: process.env.API_BASE_URL,
   allowedAccessTokens: process.env.ACCESS_TOKENS.split(','),
