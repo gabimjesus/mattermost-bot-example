@@ -17,6 +17,27 @@ const {
   getUserProfilePictureUrl,
 } = require('./mattermost');
 
+const { port } = require('./environment');
+
+
+async function botHandler(req, res) {
+  console.log(req.body);
+
+  const splittedText = req.body.text.split(' ');
+
+  const username = splittedText.shift().replace(/@/g, '');
+  const message = splittedText.join(' ');
+
+  const user = await findUserByUsername(username);
+
+  res.json({
+    username: getUserDisplayName(user),
+    icon_url: getUserProfilePictureUrl(user.id),
+    text: message,
+    response_type: 'in_channel',
+  });
+}
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,28 +46,14 @@ app.use('/hello', verifyAccessToken);
 
 app.post('/hello', async (req, res, next) => {
   try {
-    console.log(req.body);
-
-    const splittedText = req.body.text.split(' ');
-
-    const username = splittedText.shift().replace(/@/g, '');
-    const message = splittedText.join(' ');
-
-    const user = await findUserByUsername(username);
-
-    res.json({
-      username: getUserDisplayName(user),
-      icon_url: getUserProfilePictureUrl(user.id),
-      text: message,
-      response_type: 'in_channel',
-    });
+    await botHandler(req, res);
   } catch (err) {
+    // Necessário pois o express não vai dar .catch() na Promise retornada pelo handler async
     next(err);
   }
 });
 
 app.use('/hello', sendExceptionAsChatMessage);
 
-const env = require('./environment');
-app.listen(env.port);
-console.log('Listening on port', env.port);
+app.listen(port);
+console.log('Listening on port', port);

@@ -6,13 +6,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const port = parseInt(process.env.INTERNAL_PORT || 8080, 10);
 
-const app = express();
-
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.post('/hello', (req, res) => {
+function botHandler(req, res) {
   console.log(req.body);
 
   res.json({
@@ -21,7 +16,15 @@ app.post('/hello', (req, res) => {
     text: '## Tá funcionando :ok_hand:\n_(se ainda não percebeu, eu sou um robô)_',
     response_type: 'in_channel',
   });
-});
+}
+
+
+const port = parseInt(process.env.PORT || '8080', 10);
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post('/hello', botHandler);
 
 app.listen(port);
 console.log('Listening on port', port);
