@@ -6,7 +6,8 @@
   "scripts": {
     "install-prod": "$_ install --production",
     "start": "nodemon",
-    "copy-to-contabo": "bash copy-to-contabo.sh",
+    "upload": "bash copy-to-contabo.sh",
+    "upload-copy-env": "bash copy-to-contabo.sh copy-env",
     "docker-up": "docker-compose up -d",
     "docker-down": "docker-compose down",
     "docker-restart": "$_ run docker-down && $_ run docker-up",

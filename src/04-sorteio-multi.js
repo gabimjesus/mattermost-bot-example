@@ -21,7 +21,6 @@ const { port, helpBaseUrl } = require('./environment');
 
 const frasesSilvio = [
   "Quem quer dinheiro?",
-  "É namoro ou amizade?",
   "É solteiro, casado ou tico-tico no fubá?",
   "Ritmo, é ritmo de festa",
   "Quem vai ganhar?!",
@@ -30,9 +29,8 @@ const frasesSilvio = [
   "Mas quem é que eu vou chamar",
   "Ha-Ha-Hi-Hi, Vem pra cá! Vem pra cá!",
   "Vale dez reais?",
+  "Ma-mas você é da caravana de onde-m?",
 ];
-
-app.use(bodyParser.urlencoded({ extended: false }));
 
 async function botHandler(req, res) {
   console.log(req.body);
