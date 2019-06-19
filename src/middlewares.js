@@ -35,13 +35,13 @@ function sendExceptionAsChatMessage(err, req, res, next) {
   const command = req && req.body && req.body.command;
   const stackTrace = err && err.stack;
 
-  const iconIndex = Math.floor(Math.random() * icon_urls.length);
+  const randomIcon = icon_urls[Math.floor(Math.random() * icon_urls.length)];
 
   console.error(err);
 
   res.json({
     username: `Exception caught on ${command}`,
-    icon_url: icon_urls[iconIndex],
+    icon_url: randomIcon,
     text: '```js\n' + stackTrace + '\n```',
     response_type: 'ephemeral',
   });
