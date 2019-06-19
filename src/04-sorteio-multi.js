@@ -145,9 +145,9 @@ function helpMessageJson(command) {
       'reações: pode ser any para pegar todas, ou uma lista separado com vírgulas. Por exemplo: `:thumbsup:,:+1:,:heart:`',
       'é-publico?: diz se o sorteio aparece só para você ou todo mundo no chat. Os valores public, yes, true e 1 fazem aparecer no chat',
       'Exemplos:',
-      `\`${command} ${helpBaseUrl}/pl/00001111222233334444555566 Bolo 1 :heart:\``,
-      `\`${command} ${helpBaseUrl}/pl/00001111222233334444555566 Marmita 3 :heart:,:thumbsup: public\``,
-      `\`${command} ${helpBaseUrl}/pl/00001111222233334444555566 Pamonha 10 any public\``,
+      `\`${command} ${helpBaseUrl}/pl/abcdefghijklmnopqrstuvwxyz Bolo 1 :heart:\``,
+      `\`${command} ${helpBaseUrl}/pl/abcdefghijklmnopqrstuvwxyz Marmita 3 :heart:,:thumbsup: public\``,
+      `\`${command} ${helpBaseUrl}/pl/abcdefghijklmnopqrstuvwxyz Pamonha 10 any public\``,
     ].join('\n'),
     response_type: 'ephemeral',
   };
