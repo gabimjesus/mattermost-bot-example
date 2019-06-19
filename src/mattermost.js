@@ -9,24 +9,28 @@ module.exports = {
   getUserDisplayName,
 };
 
-const env = require('./environment');
 const axios = require('axios');
+
+const {
+  apiToken,
+  apiBaseUrl,
+} = require('./environment');
 
 async function findUserByUsername(username) {
   const options = {
-    headers: { Authorization: `Bearer ${env.apiToken}`},
+    headers: { Authorization: `Bearer ${apiToken}`},
   };
 
-  const response = await axios.get(`${env.apiBaseUrl}/users/username/${username}`, options);
+  const response = await axios.get(`${apiBaseUrl}/users/username/${username}`, options);
   return response.data;
 }
 
 async function findUserById(userId) {
   const options = {
-    headers: { Authorization: `Bearer ${env.apiToken}`},
+    headers: { Authorization: `Bearer ${apiToken}`},
   };
 
-  const response = await axios.get(`${env.apiBaseUrl}/users/${userId}`, options);
+  const response = await axios.get(`${apiBaseUrl}/users/${userId}`, options);
   return response.data;
 }
 
@@ -36,24 +40,24 @@ async function findManyUsersById(userIds) {
   }
 
   const options = {
-    headers: { Authorization: `Bearer ${env.apiToken}`},
+    headers: { Authorization: `Bearer ${apiToken}`},
   };
 
-  const response = await axios.post(`${env.apiBaseUrl}/users/ids`, userIds, options);
+  const response = await axios.post(`${apiBaseUrl}/users/ids`, userIds, options);
   return response.data;
 }
 
 async function listPostReactions(postId) {
   const options = {
-    headers: { Authorization: `Bearer ${env.apiToken}`},
+    headers: { Authorization: `Bearer ${apiToken}`},
   };
 
-  const response = await axios.get(`${env.apiBaseUrl}/posts/${postId}/reactions`, options);
+  const response = await axios.get(`${apiBaseUrl}/posts/${postId}/reactions`, options);
   return response.data;
 }
 
 function getUserProfilePictureUrl(userId) {
-  return `${env.apiBaseUrl}/users/${userId}/image`;
+  return `${apiBaseUrl}/users/${userId}/image`;
 }
 
 function getUserDisplayName(user) {

@@ -2,8 +2,8 @@ require('dotenv/config');
 
 const requiredEnvs = [
   'ACCESS_TOKENS',
-  'API_TOKEN',
   'API_BASE_URL',
+  'API_TOKEN',
   'HELP_BASE_URL',
   'PORT',
 ];
