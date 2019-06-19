@@ -162,6 +162,9 @@ function wrapAsyncHandler(handler) {
       next(err);
     }
   }
+
+  // Equivalente
+  // return async (req, res, next) => handler(req, res, next).catch(err => next(err))
 }
 
 const app = express();
