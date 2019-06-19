@@ -137,6 +137,7 @@ function helpMessageJson(command) {
   return {
     username: 'Bot do Sorteio (2)',
     icon_url: 'https://files.catbox.moe/dpfetu.jpeg',
+    response_type: 'ephemeral',
     text: [
       `\`${command} permalink item-sorteado número-vencedores reações é-publico?\``,
       'permalink: permalink do post com as reações de quem vai participar',
@@ -149,7 +150,6 @@ function helpMessageJson(command) {
       `\`${command} ${helpBaseUrl}/pl/abcdefghijklmnopqrstuvwxyz Marmita 3 :heart:,:thumbsup: public\``,
       `\`${command} ${helpBaseUrl}/pl/abcdefghijklmnopqrstuvwxyz Pamonha 10 any public\``,
     ].join('\n'),
-    response_type: 'ephemeral',
   };
 }
 
