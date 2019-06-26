@@ -61,11 +61,18 @@ function getUserProfilePictureUrl(userId) {
 }
 
 function getUserDisplayName(user) {
-  const fullName = [user.first_name || '', user.last_name || ''].join(' ');
+  if (user.first_name && user.last_name) {
+    // Tem os dois, first e last
+    return user.first_name + ' ' + user.last_name;
+  }
 
-  if (fullName !== ' ') {
-    return fullName;
+  const name = user.first_name || user.last_name;
+
+  if (name) {
+    // Tem um, mas não o outro (tanto faz qual)
+    return name;
   } else {
+    // Não tem nem first, nem last
     return user.username;
   }
 }
