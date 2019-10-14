@@ -30,6 +30,7 @@ const frasesSilvio = [
   "Ha-Ha-Hi-Hi, Vem pra cá! Vem pra cá!",
   "Vale dez reais?",
   "Ma-mas você é da caravana de onde-m?",
+  "Má oi, ma vem pra cá, vai pra lá, vem!"
 ];
 
 async function botHandler(req, res) {

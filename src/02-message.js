@@ -11,9 +11,9 @@ function botHandler(req, res) {
   console.log(req.body);
 
   res.json({
-    username: 'Botson da Silva',
+    username: 'Botson da Silva Sauro',
     icon_url: 'https://im.tokenlab.com.br/static/emoji/1f916.png',
-    text: '## Tá funcionando :ok_hand:\n_(se ainda não percebeu, eu sou um robô)_',
+    text: '## Tá funcionando na minha máquina :ok_hand:\n_(se ainda não percebeu, eu sou um robô :robot: )_',
     response_type: 'in_channel',
   });
 }
